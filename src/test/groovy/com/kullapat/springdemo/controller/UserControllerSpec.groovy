@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.boot.web.server.LocalServerPort
 import spock.lang.Specification
+import spock.lang.Unroll
 
 import static io.restassured.RestAssured.given
 import static org.hamcrest.Matchers.equalTo
@@ -25,7 +26,8 @@ class UserControllerSpec extends Specification {
         userRepository.deleteAll().block()
     }
 
-    def "create user, should return a new user"() {
+    @Unroll
+    def "create user; #firstName #lastName, should return a new user"() {
         expect:
         given().contentType(ContentType.JSON)
                 .body(new UserResource(firstName, lastName))
